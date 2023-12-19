@@ -1,7 +1,10 @@
 <ion-card>
   <div class="header">
     <ion-avatar>
-      <ion-img src="../../../../assets/profile-pic.jpg"></ion-img>
+      <ion-img
+        (click)="presentModal()"
+        src="../../../../assets/profile-pic.jpg"
+      ></ion-img>
     </ion-avatar>
     <ion-button shape="round" fill="outline" color="medium">
       <span class="ion-text-left">Start a post</span>
