@@ -37,4 +37,22 @@
 }
 
 .my-custom-class2 {
+  --width: 552px;
+  --height: 400px;
+  margin-top: -400px;
+
+  ion-grid {
+    margin: 0;
+    padding-bottom: 0;
+  }
+
+  ion-textarea {
+    --padding-top: 0;
+  }
+}
+
+ion-button {
+  ion-text {
+    margin-left: 8px;
+  }
 }

@@ -1,0 +1,20 @@
+.heading {
+  font-size: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  ion-button {
+    padding: 0;
+  }
+}
+
+ion-grid ion-button {
+  --border-width: 1px;
+  width: 112px;
+}
+
+.action-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -13,10 +13,12 @@ export class StartPostComponent implements OnInit {
   ngOnInit() {}
   async presentModal() {
     const modal = await this.modalController.create({
-      component: ModalController,
+      component: ModalComponent,
       cssClass: 'my-custom-class2',
     });
 
     await modal.present();
+    const { data, role } = await modal.onDidDismiss();
+    console.log({ role, data });
   }
 }
