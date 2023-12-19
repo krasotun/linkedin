@@ -1,17 +1,19 @@
-version: "3.9"
+version: '3.9'
 services:
   postgres:
-    image: postgres:14.8-alpine3.18
+    container_name: pg_db
+    image: postgres:14-alpine
     environment:
-      POSTGRES_DB: ${POSTGRES_DATABASE},
-      POSTGRES_USER: ${POSTGRES_USER},
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD},
-      PGDATA: "/var/lib/postgresql/data/pgdata"
-    volumes:
-      - .:/docker-entrypoint-initdb.d
-      - db-data:/var/lib/postgresql/data
+      POSTGRES_DB: linkedin
+      POSTGRES_USER: linkedin
+      POSTGRES_PASSWORD: linkedin
     ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
-
-volumes:
-  db-data:
+      - '5432:5432'
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: noemail@mail.ru
+      PGADMIN_DEFAULT_PASSWORD: noemail@mail.ru
+    ports:
+      - '5050:80'
