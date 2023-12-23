@@ -35,4 +35,8 @@ export class FeedService {
   deletePost(id: number): Observable<DeleteResult> {
     return from(this.feedPostRepository.delete(id));
   }
+
+  getCount(): Observable<number> {
+    return from(this.feedPostRepository.count());
+  }
 }

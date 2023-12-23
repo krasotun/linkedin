@@ -1,7 +1,7 @@
 <div class="all-posts-container">
   <ion-content>
     <ion-list>
-      <ion-card *ngFor="let post of allLoadedPosts">
+      <ion-card *ngFor="let post of postsToDisplay$ | async">
         <ion-grid>
           <ion-row class="ion-align-items-center ion-justify-content-center">
             <ion-col size="auto" class="ion-padding">
@@ -43,13 +43,8 @@
         </ion-grid>
       </ion-card>
     </ion-list>
-
-    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-      <ion-infinite-scroll-content
-        loadingSpinner="bubbles"
-        loadingText="Loading more data..."
-      ></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    <div (click)="getMorePosts()" class="bottom">
+      <ion-button *ngIf="isMoreButtonShown$ | async">Get more posts</ion-button>
+    </div>
   </ion-content>
-  <div class="hide-scroll"></div>
 </div>

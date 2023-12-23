@@ -12,7 +12,7 @@ import { ProfileSummaryComponent } from './components/profile-summary/profile-su
 import { ModalComponent } from './components/start-post/modal/modal.component';
 import { StartPostComponent } from './components/start-post/start-post.component';
 import { HomePageRoutingModule } from './home-routing.module';
-import { DataModule } from './data/data.module';
+import { DataModule } from '../data/data.module';
 import { API_URL } from '../injection.tokens';
 
 @NgModule({

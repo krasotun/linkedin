@@ -1,48 +1,78 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { PostService } from '../../data/post.service';
-import { IonInfiniteScroll } from '@ionic/angular';
-import { Post } from '../models/Post';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PostService } from '../../../data/post.service';
+import { Post } from '../../../models/Post';
+import {
+  BehaviorSubject,
+  Subject,
+  count,
+  merge,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-all-posts',
   templateUrl: './all-posts.component.html',
   styleUrls: ['./all-posts.component.scss'],
 })
-export class AllPostsComponent implements OnInit {
-  @ViewChild(IonInfiniteScroll)
-  infiniteScroll!: IonInfiniteScroll;
+export class AllPostsComponent implements OnInit, OnDestroy {
+  private readonly _destroySubject = new Subject<boolean>();
+  private readonly _postsSubject = new BehaviorSubject<Post[]>([]);
+  private readonly _moreButtonSubject = new BehaviorSubject<boolean>(true);
+  readonly isMoreButtonShown$ = this._moreButtonSubject
+    .asObservable()
+    .pipe(takeUntil(this._destroySubject));
 
-  allLoadedPosts: Post[] = [];
-  numberOfPosts = 7;
-  skipPosts = 0;
+  readonly postsToDisplay$ = this._postsSubject.asObservable();
+
+  postsToLoad = 5;
+  postsToSkip = 0;
 
   constructor(private readonly _postService: PostService) {}
 
-  ngOnInit() {
-    this.getPosts(false, '');
+  ngOnInit(): void {
+    this._loadInitialPosts();
   }
 
-  getPosts(isInitialLoad: boolean, event: any) {
-    if (this.skipPosts === 21) {
-      event.target.disabled = true;
+  ngOnDestroy(): void {
+    this._destroySubject.next(true);
+  }
+
+  private _loadInitialPosts(): void {
+    this._postService
+      .getSelectedPosts(this.postsToLoad, 0)
+      .pipe(takeUntil(this._destroySubject))
+      .subscribe((posts) => {
+        this._postsSubject.next(posts);
+      });
+  }
+
+  getMorePosts(): void {
+    if (this.postsToSkip === 0) {
+      this.postsToSkip = this.postsToSkip + 5;
     }
 
     this._postService
-      .getSelectedPosts(this.numberOfPosts, this.skipPosts)
-      .subscribe(
-        (posts: Post[]) => {
-          for (let i = 0; i < posts.length; i++) {
-            this.allLoadedPosts.push(posts[i]);
-          }
-
-          if (isInitialLoad) event.target.complete();
-          this.skipPosts = this.skipPosts + 7;
-        },
-        (error) => console.log(error)
-      );
-  }
-
-  loadData(event: any) {
-    this.getPosts(true, event);
+      .getCount()
+      .pipe(
+        switchMap((count) => {
+          return this._postService
+            .getSelectedPosts(this.postsToLoad, this.postsToSkip)
+            .pipe(
+              takeUntil(this._destroySubject),
+              tap((newPosts) => {
+                const currentPosts = this._postsSubject.getValue();
+                const totalPosts = [...currentPosts, ...newPosts];
+                this._postsSubject.next(totalPosts);
+                this.postsToSkip = this.postsToSkip + 5;
+                if (totalPosts.length >= count) {
+                  this._moreButtonSubject.next(false);
+                }
+              })
+            );
+        })
+      )
+      .subscribe();
   }
 }

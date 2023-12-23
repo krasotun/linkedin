@@ -27,6 +27,11 @@ export class FeedController {
     return this.feedService.findAllPosts();
   }
 
+  @Get('count')
+  getCount(): Observable<number> {
+    return this.feedService.getCount();
+  }
+
   @Get()
   findSelected(
     @Query('take') take: number = 1,

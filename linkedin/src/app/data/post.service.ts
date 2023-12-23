@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Post } from '../components/models/Post';
+import { Post } from '../models/Post';
 import { Observable } from 'rxjs';
 import { API_URL } from 'src/app/injection.tokens';
 
@@ -22,5 +22,9 @@ export class PostService {
       .set(SELECTED_POSTS_PARAMS.TAKE, take)
       .set(SELECTED_POSTS_PARAMS.SKIP, skip);
     return this.http.get<Post[]>(this.baseUrl, { params });
+  }
+
+  getCount(): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}/count`);
   }
 }
