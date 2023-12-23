@@ -14,6 +14,7 @@ import { StartPostComponent } from './components/start-post/start-post.component
 import { HomePageRoutingModule } from './home-routing.module';
 import { DataModule } from '../data/data.module';
 import { API_URL } from '../injection.tokens';
+import { PostComponent } from './components/post/post.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { API_URL } from '../injection.tokens';
     AdvertisingComponent,
     ModalComponent,
     AllPostsComponent,
+    PostComponent,
   ],
 })
 export class HomePageModule {}
