@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PostService } from '../../services/post.service';
+import { PostService } from '../../data/post.service';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { Post } from '../models/Post';
 
@@ -12,9 +12,8 @@ export class AllPostsComponent implements OnInit {
   @ViewChild(IonInfiniteScroll)
   infiniteScroll!: IonInfiniteScroll;
 
-  queryParams!: string;
   allLoadedPosts: Post[] = [];
-  numberOfPosts = 5;
+  numberOfPosts = 7;
   skipPosts = 0;
 
   constructor(private readonly _postService: PostService) {}
@@ -24,23 +23,23 @@ export class AllPostsComponent implements OnInit {
   }
 
   getPosts(isInitialLoad: boolean, event: any) {
-    if (this.skipPosts === 20) {
+    if (this.skipPosts === 21) {
       event.target.disabled = true;
     }
 
-    this.queryParams = `?take=${this.numberOfPosts}&skip=${this.skipPosts}`;
+    this._postService
+      .getSelectedPosts(this.numberOfPosts, this.skipPosts)
+      .subscribe(
+        (posts: Post[]) => {
+          for (let i = 0; i < posts.length; i++) {
+            this.allLoadedPosts.push(posts[i]);
+          }
 
-    this._postService.getSelectedPosts(this.queryParams).subscribe(
-      (posts: Post[]) => {
-        for (let i = 0; i < posts.length; i++) {
-          this.allLoadedPosts.push(posts[i]);
-        }
-
-        if (isInitialLoad) event.target.complete();
-        this.skipPosts = this.skipPosts + 5;
-      },
-      (error) => console.log(error)
-    );
+          if (isInitialLoad) event.target.complete();
+          this.skipPosts = this.skipPosts + 7;
+        },
+        (error) => console.log(error)
+      );
   }
 
   loadData(event: any) {

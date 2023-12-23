@@ -1,20 +1,28 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 import { HomePage } from './home.page';
 
-import { HomePageRoutingModule } from './home-routing.module';
+import { AdvertisingComponent } from './components/advertising/advertising.component';
+import { AllPostsComponent } from './components/all-posts/all-posts.component';
 import { HeaderComponent } from './components/header/header.component';
 import { PopoverComponent } from './components/header/popover/popover.component';
 import { ProfileSummaryComponent } from './components/profile-summary/profile-summary.component';
-import { StartPostComponent } from './components/start-post/start-post.component';
-import { AdvertisingComponent } from './components/advertising/advertising.component';
 import { ModalComponent } from './components/start-post/modal/modal.component';
-import { AllPostsComponent } from './components/all-posts/all-posts.component';
+import { StartPostComponent } from './components/start-post/start-post.component';
+import { HomePageRoutingModule } from './home-routing.module';
+import { DataModule } from './data/data.module';
+import { API_URL } from '../injection.tokens';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    HomePageRoutingModule,
+    DataModule,
+  ],
   declarations: [
     HomePage,
     HeaderComponent,
