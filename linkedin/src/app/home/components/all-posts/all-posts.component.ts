@@ -1,15 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { PostService } from '../../../data/post.service';
 import { Post } from '../../../models/Post';
-import {
-  BehaviorSubject,
-  Subject,
-  count,
-  merge,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs';
 
 @Component({
   selector: 'app-all-posts',

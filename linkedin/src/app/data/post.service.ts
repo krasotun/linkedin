@@ -27,4 +27,8 @@ export class PostService {
   getCount(): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}/count`);
   }
+
+  post(post: Post): Observable<Post> {
+    return this.http.post<Post>(this.baseUrl, post);
+  }
 }
