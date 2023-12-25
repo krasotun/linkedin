@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FeedModule } from './feed/feed.module';
+import { getMetadataArgsStorage } from 'typeorm';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { UserEntity } from './auth/models/user.entity';
-import { FeedPostEntity } from './feed/models/post.entity';
+import { FeedModule } from './feed/feed.module';
 
 @Module({
   imports: [
@@ -18,7 +17,7 @@ import { FeedPostEntity } from './feed/models/post.entity';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      entities: [UserEntity, FeedPostEntity],
+      entities: getMetadataArgsStorage().tables.map((tbl) => tbl.target),
       autoLoadEntities: true,
       synchronize: true,
     }),
