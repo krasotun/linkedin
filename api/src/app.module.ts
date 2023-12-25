@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FeedModule } from './feed/feed.module';
 import { AuthModule } from './auth/auth.module';
+import { UserEntity } from './auth/models/user.entity';
+import { FeedPostEntity } from './feed/models/post.entity';
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
+      entities: [UserEntity, FeedPostEntity],
       autoLoadEntities: true,
       synchronize: true,
     }),
