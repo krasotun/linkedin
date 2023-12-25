@@ -21,13 +21,13 @@ export class PostService {
 
   getPosts(): Observable<Post[]> {
     return this.http
-      .get<Post[]>(`${this.baseUrl}/all`)
+      .get<Post[]>(`${this.baseUrl}/feed/all`)
       .pipe(repeat({ delay: () => this._updateSubject }));
   }
 
   post(post: Post): Observable<Post> {
     return this.http
-      .post<Post>(this.baseUrl, post)
+      .post<Post>(`${this.baseUrl}/feed`, post)
       .pipe(tap(() => this._updateSubject.next()));
   }
 
@@ -35,10 +35,10 @@ export class PostService {
     const params = new HttpParams()
       .set(SELECTED_POSTS_PARAMS.TAKE, take)
       .set(SELECTED_POSTS_PARAMS.SKIP, skip);
-    return this.http.get<Post[]>(this.baseUrl, { params });
+    return this.http.get<Post[]>(`${this.baseUrl}/feed`, { params });
   }
 
   getCount(): Observable<number> {
-    return this.http.get<number>(`${this.baseUrl}/count`);
+    return this.http.get<number>(`${this.baseUrl}/feed/count`);
   }
 }

@@ -19,7 +19,7 @@ import { API_URL } from './injection.tokens';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: API_URL, useValue: 'http://localhost:3000/api/feed' },
+    { provide: API_URL, useValue: 'http://localhost:3000/api' },
   ],
   bootstrap: [AppComponent],
 })
